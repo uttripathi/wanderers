@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Itinerary Timeline</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .timeline-line {
+            width: 0;
+            border-left: 2px dashed #ff6b00;
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            bottom: 0;
+        }
+
+        .location-marker {
+            position: absolute;
+            left: -31px;
+            top: 0;
+            color: #ff6b00;
+            background: white;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold mb-6">ITINERARY</h2>
+            
+            <div class="relative pl-8">
+                <div class="timeline-line"></div>
+                
+                <div class="mb-8 relative">
+                    <div class="location-marker">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-orange-500 mb-2">Day 1: LPU - Rishikesh</h3>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Departure from LPU to Rishikesh</li>
+                    </ul>
+                </div>
+
+                <div class="mb-8 relative">
+                    <div class="location-marker">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-orange-500 mb-2">Day 2: Rishikesh Sightseeing</h3>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Reach Rishikesh</li>
+                        <li>Transfers to hotel</li>
+                        <li>After some rest and fresh-up proceed to sightseeing</li>
+                        <li>Visit River Rafting Point, Laxman Jhula, Ram Jhula, Geeta Bhawan</li>
+                        <li>Dinner</li>
+                        <li>Stay at hotel</li>
+                    </ul>
+                </div>
+
+                <div class="mb-8 relative">
+                    <div class="location-marker">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-orange-500 mb-2">Day 3: Rishikesh-Haridwar-Dehradun</h3>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Breakfast</li>
+                        <li>Checkout & Proceed to Haridwar sight-seeing</li>
+                        <li>Proceed to Dehradun</li>
+                        <li>Dinner</li>
+                        <li>Stay in hotel at Dehradun</li>
+                    </ul>
+                </div>
+
+                <div class="mb-8 relative">
+                    <div class="location-marker">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-orange-500 mb-2">Day 4: Dehradun & Mussoorie Sightseeing</h3>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Breakfast and Checkout from Hotel</li>
+                        <li>Proceed to Dehradun & Mussoorie sightseeing (Robers Cave, Sahastra Dhara Waterfall, Kempty Waterfall, Picture Palace, Mall Road)</li>
+                        <li>Evening departure to your city</li>
+                    </ul>
+                </div>
+
+                <div class="relative">
+                    <div class="location-marker">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-orange-500 mb-2">Day 5: Dehradun-LPU</h3>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Morning reach at your city</li>
+                        <li>Trip Ends with Wonderful Memory of Uttrakhand</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
