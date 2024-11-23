@@ -1,20 +1,35 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const checksum_lib = require('paytmchecksum');
-const https = require('https');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
+const user=require('./user');
+const mongoose=require('mongoose');
 
 const app = express();
 
-// Use the CORS middleware
 app.use(cors());
 
 app.use(bodyParser.json());
 
-app.post('/generateTransactionToken', (req, res) => {
-    const { orderId, amount, customerId } = req.body;
 
-    const paytmParams = {
+mongoose.connect('mongodb://127.0.0.1:27017/wanderers', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.error('Failed to connect to MongoDB', err));
+
+
+app.post('/generateTransactionToken', async(req, res) => {
+    const {name, email, phone, who, destination, collegeName, orderId, amount, customerId } = req.body;
+
+    if (!name || !email || !phone || !who || !destination || !collegeName || !orderId || !amount || !customerId) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+    const traveller= await user.create({ name, email, phone, who, destination, collegeName, orderId, amount, customerId });
+    res.status(200).json({message: "success", data:traveller}); //remove it when you have to manage gateway
+
+/*     const paytmParams = {
         body: {
             requestType: 'Payment',
             mid: 'YOUR_MERCHANT_ID', // Replace with your Merchant ID
@@ -57,7 +72,8 @@ app.post('/generateTransactionToken', (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({ error: 'Checksum generation failed', details: err });
-        });
+        }); */
+
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

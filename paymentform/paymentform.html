@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>BOOK YOUR TRIP</h2>
+        <form action="/api/process-upi-payment" method="POST" id="upiPaymentForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+            <label for="who">Who are you😊:</label>
+            <select id="who" name="who" required>
+                <option value="">Select</option>
+                <option value="student">Student</option>
+                <option value="other">Other</option>
+            </select>
+
+            <div id="collegeNameField" style="display: none;">
+                <label for="collegeName">College Name:</label>
+                <input type="text" id="collegeName" name="collegeName" placeholder="Enter your college name">
+            </div>
+
+            <label for="destination">Destination:</label>
+            <select id="destination" name="destination" required>
+                <option value="">Select a destination</option>
+                <option value="triund" data-amount="2000">Triund Trek</option>
+                <option value="shimla" data-amount="3000">Shimla</option>
+                <option value="manali" data-amount="4000">Manali</option>
+                <option value="udaipur" data-amount="2500">Udaipur</option>
+            </select>
+
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" name="amount" readonly>
+
+            <label for="upiId">UPI ID:</label>
+            <input type="text" id="upiId" name="customerId" placeholder="Enter your UPI ID (e.g., user@bank)" required>
+
+            <button type="submit">Pay Now</button>
+        </form>
+    </div>
+
+    <script>
+        const whoDropdown = document.getElementById('who');
+        const collegeNameField = document.getElementById('collegeNameField');
+        const collegeNameInput = document.getElementById('collegeName');
+    
+        whoDropdown.addEventListener('change', function () {
+            if (this.value === 'student') {
+                collegeNameField.style.display = 'block';
+            } else {
+                collegeNameField.style.display = 'none';
+                collegeNameInput.value = 'Not Applicable';
+            }
+        });
+    
+        const destinationDropdown = document.getElementById('destination');
+        const amountField = document.getElementById('amount');
+        destinationDropdown.addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const amount = selectedOption.getAttribute('data-amount');
+            amountField.value = amount ? `₹${amount}` : '';
+        });
+    
+        const form = document.getElementById('upiPaymentForm');
+        form.addEventListener('submit', function (event) {
+            if (whoDropdown.value !== 'student' || collegeNameInput.value.trim() === '') {
+                collegeNameInput.value = 'Not Applicable';
+            }
+        });
+    </script>
+    
+    <script>
+    document.getElementById('upiPaymentForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+    
+        data.orderId = `ORDER_${new Date().getTime()}`;
+
+        const amountField = document.getElementById('amount').value.replace('₹', '');
+        data.amount = amountField;
+    
+        try {
+            const response = await fetch('http://localhost:3000/generateTransactionToken', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Server responded with status ${response.status}`);
+            }
+    
+            const result = await response.json();
+
+            alert(result.message); //remove when you have to manage gateway
+    
+          /*   // Handle the server response and invoke Paytm Checkout
+            if (result.success && result.txnToken) {
+                const config = {
+                    root: '',
+                    flow: 'DEFAULT',
+                    data: {
+                        orderId: data.orderId,
+                        token: result.txnToken,
+                        tokenType: 'TXN_TOKEN',
+                        amount: data.amount,
+                    },
+                    handler: {
+                        notifyMerchant: function (eventName, data) {
+                            console.log('Event:', eventName, data);
+                        },
+                    },
+                };
+    
+                // Initialize and invoke Paytm CheckoutJS
+                window.Paytm.CheckoutJS.init(config)
+                    .then(() => window.Paytm.CheckoutJS.invoke())
+                    .catch((error) => console.error('Error in Paytm Checkout:', error));
+            } else {
+                alert(`Failed to generate transaction token: ${result.message}`);
+            } */
+        } catch (error) {
+            console.error('Error submitting the form:', error);
+            alert('An error occurred while processing your payment. Please try again later.');
+        }
+    });
+</script>
+</body>
+</html>
